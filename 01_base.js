@@ -94,15 +94,12 @@
 
 // Оператор Switch
 
-var x = prompt('Введине первое число', 100);
-var y = prompt('Введите второе число', 100);
-var z = prompt('1(+), 2(-), 3(*), 4(/)');
+let x = parseInt(prompt('Введине первое число', 100));
+let y = parseInt(prompt('Введите второе число', 100));
+let z = prompt('1(+), 2(-), 3(*), 4(/)');
 
-var x = parseInt(x);
-var y = parseInt(y);
-var result = parseInt(result);
-
-switch (z) { //===
+let result;
+switch (z) {                     //===
     case '1':
         result = x + y;
         break;
@@ -120,7 +117,6 @@ switch (z) { //===
         break;
 }
 alert(result);
-alert('ты обосрался')
 
 // 7 Булевая логика
 // https://developer.mozilla.org/ru/docs/Web/JavaScript/Guide/Expressions_and_Operators#%D0%BB%D0%BE%D0%B3%D0%B8%D1%87%D0%B5%D1%81%D0%BA%D0%B8%D0%B5_%D0%BE%D0%BF%D0%B5%D1%80%D0%B0%D1%82%D0%BE%D1%80%D1%8B
