@@ -94,8 +94,8 @@
 
 // Оператор Switch
 
-let x = Number(prompt('Введине первое число', 100));
-let y = Number(prompt('Введите второе число', 100));
+let x = +prompt('Введине первое число', 100);
+let y = +prompt('Введите второе число', 100);
 let z = prompt('1(+), 2(-), 3(*), 4(/)');
 
 let result;
