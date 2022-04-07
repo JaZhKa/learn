@@ -1,14 +1,15 @@
 function bind(lastName) {
     let firstName = 'Yakov';
-    let c = 0;
+    let counter = 0;
 
     function father(length) {
-      
+
         for (i = 0; i < length; i++) {
-            c += 1;
-            console.log(c + ' ' + firstName + ' ' + lastName);
+            counter++;
+            console.log(counter + ' ' + firstName + ' ' + lastName);
         }
     }
-    father(4);
+    return father;
 }
-bind('Lemenkov');
+let fullName = bind('Lemenkov');
+fullName(4);
