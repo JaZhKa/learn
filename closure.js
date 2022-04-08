@@ -14,11 +14,12 @@
 // let fullName = bind('Lemenkov');
 // fullName(4);
 
+
+
 function getSum(a) {
-    let sum = function addB(b) {
+    return function (b) {
         console.log(a + b);
     };
-    return sum;
 }
 
 getSum('14')('88');
