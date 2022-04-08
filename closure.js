@@ -1,15 +1,24 @@
-function bind(lastName) {
-    let firstName = 'Yakov';
-    let counter = 0;
+// function bind(lastName) {
+//     let firstName = 'Yakov';
+//     let counter = 0;
 
-    function father(length) {
+//     function father(length) {
 
-        for (i = 0; i < length; i++) {
-            counter++;
-            console.log(counter + ' ' + firstName + ' ' + lastName);
-        }
-    }
-    return father;
+//         for (i = 0; i < length; i++) {
+//             counter++;
+//             console.log(counter + ' ' + firstName + ' ' + lastName);
+//         }
+//     }
+//     return father;
+// }
+// let fullName = bind('Lemenkov');
+// fullName(4);
+
+function getSum(a) {
+    let sum = function addB(b) {
+        console.log(a + b);
+    };
+    return sum;
 }
-let fullName = bind('Lemenkov');
-fullName(4);
+
+getSum('14')('88');
