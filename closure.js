@@ -16,10 +16,10 @@
 
 
 
-function getSum(a) {
-    return function (b) {
-        console.log(a + b);
-    };
-}
+// function getSum(a) {
+//     return function (b) {
+//         console.log(a + b);
+//     };
+// }
 
-getSum('14')('88');
+// getSum('14')('88');
