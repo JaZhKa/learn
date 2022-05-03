@@ -23,3 +23,13 @@
 // }
 
 // getSum('14')('88');
+
+function urlGen(domain) {
+    return function(url) {
+        return `https://${url}.${domain}`;
+    };
+}
+
+const gCom = urlGen('com');
+
+console.log(gCom('google'));
