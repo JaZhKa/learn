@@ -19,7 +19,15 @@ let appData = {
     optionalExpenses: {},
     income: [],
     saving: true,
+    startBudget: function() {
+        this.startBudget = this.money;
+        console.log(`Начальный бюджет: ${money}`);
+    },
     detectDayBudget: function () {
+        appData.moneyPerDay = +Number(appData.budget / 30).toFixed(2);
+        alert('Ваш дневной бюджет: ' + appData.moneyPerDay);
+    },
+    chooseExpenses: function () {
         for (let i = 0; i < 2; i++) {
             let exp = prompt('Введите обязательную статью расходов в этом месяце', ''),
                 expValue = +prompt('Во сколько это обойдется', '');
@@ -65,31 +73,25 @@ let appData = {
         }
         return getCount();
     },
-    chooseIncome: function() {
+    chooseIncome: function () {
         let items = prompt('Что принесет дополнительные доход? (Перечислите через запятую)', '');
-        while(items == '' || items == null) {
+        while (items == '' || items == null) {
             items = prompt('Что принесет дополнительные доход? (Перечислите через запятую)', '');
         }
         appData.income = items.split(', ');
         appData.income.push(prompt('Может что-то еще?', ''));
         appData.income.sort();
-        appData.income.forEach(function(item, i){
+        appData.income.forEach(function (item, i) {
             console.log(`Способы доп. заработка: ${++i}: ${item}`);
         });
     }
 };
 
-for(const key in appData){
-        console.log(`Наша программа включает в себя данные: ${key}`);
-    }
+for (const key in appData) {
+    console.log(`Наша программа включает в себя данные: ${key}`);
+}
 
-appData.startBudget = appData.budget;
-
-appData.moneyPerDay = Number.parseInt(appData.budget / 30);
-
-alert('Ваш дневной бюджет: ' + appData.moneyPerDay);
 console.group();
-console.log('Изначальный бюджет: ' + appData.startBudget);
 console.log('Ваш дневной бюджет: ' + appData.moneyPerDay);
 console.log(appData);
 console.groupEnd();
