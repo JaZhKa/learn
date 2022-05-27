@@ -61,14 +61,10 @@ let appData = {
         }
     },
     chooseOptExpenses: function () {
-        let counter = 0,
-            optExp;
-
         function getCount() {
             for (let i = 0; i < 3; i++) {
-                counter++;
-                optExp = prompt('Введите необязательные расходы', '');
-                appData.optionalExpenses[counter] = optExp;
+               let opt = prompt('Введите необязательные расходы', '');
+                appData.optionalExpenses[i] = opt;
             }
         }
         return getCount();
