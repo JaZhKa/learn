@@ -1,8 +1,10 @@
+/*
+My solution
 let arr = new Array(100);
 
 for(i=0; i<arr.length; i++) {
     arr[i] = i;
-};
+}
 
 // console.log(arr);
 
@@ -14,23 +16,13 @@ arr.forEach((item) => {
     } else if(item % 3 == 0){
         console.log(`${item}: foo`);
     }
-
-
-    //switch don't work(?)
-
-    // let x;
-    // switch(0) {
-    //     case item % 3 && item % 5:
-    //         console.log(`${item} foobar`);
-    //         break;
-    //     case item % 3:
-    //         console.log(`${item} foo`);
-    //         break;
-    //     case item % 5:
-    //         console.log(`${item} bar`);
-    //         break;
-    //     default:
-    //         console.log(`${item} не делиться ни на 3, ни на 5`);
-    //         break;
-    // }
 });
+*/
+
+/*
+right solution
+const arr = [...Array(100)].map((_, i) => i + 1);
+const res = arr.map(n => `${n % 3 ? '' : 'Foo'}${n % 5 ? '' : 'Bar'}` || n);
+
+console.log(res);
+*/
