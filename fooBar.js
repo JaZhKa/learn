@@ -15,6 +15,9 @@ arr.forEach((item) => {
         console.log(`${item}: foo`);
     }
 
+
+    //switch don't work(?)
+
     // let x;
     // switch(0) {
     //     case item % 3 && item % 5:
