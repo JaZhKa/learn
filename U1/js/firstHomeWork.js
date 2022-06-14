@@ -59,7 +59,7 @@ optionalExpensesBtn.addEventListener('click', function() {
   for (let i = 0; i < optionalExpensesItem.length; i++) {
     let opt = optionalExpensesItem[i].value;
     appData.optionalExpenses[i] = opt;
-    optionalExpensesValue.textContent += appData.optionalExpenses[i] + ', ';
+    optionalExpensesValue.textContent += appData.optionalExpenses[i] + ' ';
     }
 });
 
@@ -86,7 +86,7 @@ countBudgetBtn.addEventListener('click', function() {
 
 incomeItem.addEventListener('change', function() {
   let items = incomeItem.value;
-  appData.income = items.split(', ');
+  appData.income = items.split(',');
   incomeValue.textContent = appData.income;
   });
 
@@ -108,8 +108,10 @@ chooseSum.addEventListener('input', function() {
 
     monthsavingsValue.textContent = appData.monthIncome.toFixed(1);
     yearsavingsValuet.textContent = appData.yearIncome.toFixed(1);
-  }
-});
+  } else {
+    chooseSum.ariaDisabled = 'true';
+    }
+  });
 
 let appData = {
   budget: money,
