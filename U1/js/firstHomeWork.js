@@ -24,6 +24,22 @@ let startBtn = document.getElementById('start'),
 
 let money, time;
 
+const arrBtn = [expensesBtn, optionalExpensesBtn, countBudgetBtn];
+arrBtn.forEach(i => i.disabled = true);
+
+const getPercent = function() {
+  if(appData.savings == true) {
+    let sum = +chooseSum.value,
+        percent = +choosePercent.value;
+
+    appData.monthIncome = sum / 100 / 12 * percent;
+    appData.yearIncome = sum / 100 * percent;
+
+    monthsavingsValue.textContent = appData.monthIncome.toFixed(1);
+    yearsavingsValuet.textContent = appData.yearIncome.toFixed(1);
+    }
+};
+
 startBtn.addEventListener('click', function() {
   time = prompt('Введите дату в формате YYYY-MM-DD', '');
   money = +prompt('Ваш бюджет на месяц?', '');
@@ -37,6 +53,8 @@ startBtn.addEventListener('click', function() {
   yearValue.value = new Date(Date.parse(time)).getFullYear();
   monthValue.value = new Date(Date.parse(time)).getMonth() + 1;
   dayValue.value = new Date(Date.parse(time)).getDate();
+  
+  arrBtn.forEach(i => i.disabled = false);
 });
 
 expensesBtn.addEventListener('click', function() {
@@ -67,7 +85,7 @@ countBudgetBtn.addEventListener('click', function() {
 
   if (appData.budget != undefined){
 
-  appData.moneyPerDay = +Number(appData.budget / 30).toFixed(2);
+  appData.moneyPerDay = +Number((appData.budget - expensesValue.textContent) / 30).toFixed(2);
   dayBudgetValue.textContent = appData.moneyPerDay;
 
   if (appData.moneyPerDay < 10) {
@@ -98,20 +116,10 @@ checkSavings.addEventListener('click', function() {
   }
 });
 
-chooseSum.addEventListener('input', function() {
-  if(appData.savings == true) {
-    let sum = +chooseSum.value,
-        percent = +choosePercent.value;
+chooseSum.addEventListener('input', getPercent);
 
-    appData.monthIncome = sum / 100 / 12 * percent;
-    appData.yearIncome = sum / 100 * percent;
-
-    monthsavingsValue.textContent = appData.monthIncome.toFixed(1);
-    yearsavingsValuet.textContent = appData.yearIncome.toFixed(1);
-  } else {
-    chooseSum.ariaDisabled = 'true';
-    }
-  });
+choosePercent.addEventListener('input', getPercent);
+    
 
 let appData = {
   budget: money,
