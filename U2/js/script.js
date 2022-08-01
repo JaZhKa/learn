@@ -37,7 +37,7 @@ window.addEventListener('DOMContentLoaded', function () {
 
 // Timer
 
-  const deadline = '2022-07-30 00:00:00';
+  const deadline = '2022-08-02 00:00:00';
 
   function getTimeRamaining(endtime) {
     let t = Date.parse(endtime) - Date.parse(new Date()),
@@ -70,6 +70,9 @@ window.addEventListener('DOMContentLoaded', function () {
       
       if(t.total < 1) {
         clearInterval(timeInterval);
+        hours.textContent = '00';
+        minutes.textContent = '00';
+        seconds.textContent = '00';
       }
     }
   }
