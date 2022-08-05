@@ -81,9 +81,8 @@ window.addEventListener('DOMContentLoaded', function () {
 
 // Modal
 
-  let more = document.querySelector('.more'),
-      overlay = document.querySelector('.overlay'),
-      close = document.querySelector('.popup-close');
+  const more = document.querySelector('.more'),
+        overlay = document.querySelector('.overlay');
 
   more.addEventListener('click', function() {
     overlay.style.display = 'block';
@@ -91,9 +90,15 @@ window.addEventListener('DOMContentLoaded', function () {
     document.body.style.overflow = 'hidden';
   });
 
-  close.addEventListener('click', function() {
+  overlay.addEventListener('click', function(event) {
+    if(event.target == overlay || event.target.closest('.popup-close')) {
     overlay.style.display = 'none';
     more.classList.remove('more-splash');
     document.body.style.overflow = '';
+    }
   });
+});
+
+document.addEventListener('click', function(e) {
+  console.log(e.target);
 });
