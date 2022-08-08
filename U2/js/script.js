@@ -1,17 +1,17 @@
 window.addEventListener('DOMContentLoaded', function () {
-
-// Tabs
+  
+  // Tabs
 
   'use strict';
   const tab = document.querySelectorAll('.info-header-tab'),
-        info = document.querySelector('.info-header'),
-        tabContent = document.querySelectorAll('.info-tabcontent');
+    info = document.querySelector('.info-header'),
+    tabContent = document.querySelectorAll('.info-tabcontent');
 
   function hideTabContent(h) {
     for (let i = h; i < tabContent.length; i++) {
       tabContent[i].classList.remove('show');
       tabContent[i].classList.add('hide');
-      }
+    }
   }
   hideTabContent(1);
 
@@ -35,40 +35,40 @@ window.addEventListener('DOMContentLoaded', function () {
     }
   });
 
-// Timer
+  // Timer
 
   const deadline = '2022-08-26 00:00:00';
 
   function getTimeRamaining(endtime) {
     let t = Date.parse(endtime) - Date.parse(new Date()),
-        seconds = Math.floor((t / 1000) % 60),
-        minutes = Math.floor((t / 1000 / 60) % 60),
-        hours = Math.floor((t / (1000*60*60)));
-        // hours = Math.floor((t / 1000/60/60) % 24);   if need days
-        // days = Math.floor((t / (1000*60*60*24)));
+      seconds = Math.floor((t / 1000) % 60),
+      minutes = Math.floor((t / 1000 / 60) % 60),
+      hours = Math.floor(t / (1000 * 60 * 60));
+    // hours = Math.floor((t / 1000/60/60) % 24);   if need days
+    // days = Math.floor((t / (1000*60*60*24)));
 
-        return {
-          'total' : t,
-          'hours' : hours < 10 ? '0' + hours : hours,
-          'minutes' : minutes < 10 ? '0' + minutes : minutes,
-          'seconds' : seconds < 10 ? '0' + seconds : seconds
-        };
-      }
-      
+    return {
+      total: t,
+      hours: hours < 10 ? '0' + hours : hours,
+      minutes: minutes < 10 ? '0' + minutes : minutes,
+      seconds: seconds < 10 ? '0' + seconds : seconds,
+    };
+  }
+
   function setClock(id, endtime) {
     let timer = document.getElementById(id),
-    hours = timer.querySelector('.hours'),
-    minutes = timer.querySelector('.minutes'),
-    seconds = timer.querySelector('.seconds'),
-    timeInterval = setInterval(updeteClock, 1000);
-    
+      hours = timer.querySelector('.hours'),
+      minutes = timer.querySelector('.minutes'),
+      seconds = timer.querySelector('.seconds'),
+      timeInterval = setInterval(updeteClock, 1000);
+
     function updeteClock() {
       let t = getTimeRamaining(endtime);
       hours.textContent = t.hours;
       minutes.textContent = t.minutes;
       seconds.textContent = t.seconds;
-      
-      if(t.total < 1) {
+
+      if (t.total < 1) {
         clearInterval(timeInterval);
         hours.textContent = '00';
         minutes.textContent = '00';
@@ -79,21 +79,28 @@ window.addEventListener('DOMContentLoaded', function () {
 
   setClock('timer', deadline);
 
-// Modal
+  // Modal
 
-  let more = document.querySelector('.more'),
-      overlay = document.querySelector('.overlay'),
-      close = document.querySelector('.popup-close');
+  const more = document.querySelector('.more'),
+    overlay = document.querySelector('.overlay');
 
-  more.addEventListener('click', function() {
-    overlay.style.display = 'block';
-    this.classList.add('more-splash');
-    document.body.style.overflow = 'hidden';
+  document.addEventListener('click', function (event) {
+    if (event.target === more || event.target.closest('.description-btn')) {
+      overlay.style.display = 'block';
+      this.classList.add('more-splash');
+      document.body.style.overflow = 'hidden';
+    }
   });
 
-  close.addEventListener('click', function() {
-    overlay.style.display = 'none';
-    more.classList.remove('more-splash');
-    document.body.style.overflow = '';
+  overlay.addEventListener('click', function (event) {
+    if (event.target == overlay || event.target.closest('.popup-close')) {
+      overlay.style.display = 'none';
+      more.classList.remove('more-splash');
+      document.body.style.overflow = '';
+    }
   });
+});
+
+document.addEventListener('click', function (e) {
+  console.log(e.target);
 });
