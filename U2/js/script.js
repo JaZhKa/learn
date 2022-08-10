@@ -87,11 +87,11 @@ window.addEventListener('DOMContentLoaded', function () {
   document.addEventListener('click', function (event) {
     if (event.target === more || event.target.closest('.description-btn')) {
       overlay.style.display = 'block';
-      this.classList.add('more-splash');
+      more.classList.add('more-splash');
       document.body.style.overflow = 'hidden';
     }
   });
-
+  
   overlay.addEventListener('click', function (event) {
     if (event.target == overlay || event.target.closest('.popup-close')) {
       overlay.style.display = 'none';
