@@ -7,28 +7,28 @@ window.addEventListener('DOMContentLoaded', () => {
     INFO = document.querySelector('.info-header'),
     TAB_CONTENT = document.querySelectorAll('.info-tabcontent');
 
-  function hideTabContent(h) {
+  const HIDEN_TAB_CONTENT = (h = 1) => {
     for (let i = h; i < TAB_CONTENT.length; i++) {
       TAB_CONTENT[i].classList.remove('show');
       TAB_CONTENT[i].classList.add('hide');
     }
-  }
-  hideTabContent(1);
+  };
+  HIDEN_TAB_CONTENT();
 
-  function showTabContent(s) {
+  const SHOW_TAB_CONTENT = (s) => {
     if (TAB_CONTENT[s].classList.contains('hide')) {
       TAB_CONTENT[s].classList.remove('hide');
       TAB_CONTENT[s].classList.add('show');
     }
-  }
+  };
 
-  INFO.addEventListener('click', function (event) {
-    const target = event.target;
-    if (target && target.classList.contains('info-header-tab')) {
+  INFO.addEventListener('click', event => {
+    const TARGET = event.target;
+    if (TARGET && TARGET.classList.contains('info-header-tab')) {
       for (let i = 0; i < TAB.length; i++) {
-        if (target == TAB[i]) {
-          hideTabContent(0);
-          showTabContent(i);
+        if (TARGET === TAB[i]) {
+          HIDEN_TAB_CONTENT(0);
+          SHOW_TAB_CONTENT(i);
           break;
         }
       }
@@ -39,7 +39,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
   const DEADLINE = '2022-08-26 00:00:00';
 
-  function getTimeRamaining(endtime) {
+  const GET_TIMER_RAMAINING = endtime => {
     const T = Date.parse(endtime) - Date.parse(new Date()),
       SECONDS = Math.floor((T / 1000) % 60),
       MINUTES = Math.floor((T / 1000 / 60) % 60),
@@ -53,9 +53,9 @@ window.addEventListener('DOMContentLoaded', () => {
       minutes: MINUTES < 10 ? '0' + MINUTES : MINUTES,
       seconds: SECONDS < 10 ? '0' + SECONDS : SECONDS,
     };
-  }
+  };
 
-  function setClock(id, endtime) {
+  const SET_CLOCK = (id = 'timer', endtime = DEADLINE) => {
     const TIMER = document.getElementById(id),
       HOURS = TIMER.querySelector('.hours'),
       MINUTES = TIMER.querySelector('.minutes'),
@@ -63,7 +63,7 @@ window.addEventListener('DOMContentLoaded', () => {
       TIME_INTERVAL = setInterval(updeteClock, 1000);
 
     function updeteClock() {
-      const T = getTimeRamaining(endtime);
+      const T = GET_TIMER_RAMAINING(endtime);
       HOURS.textContent = T.hours;
       MINUTES.textContent = T.minutes;
       SECONDS.textContent = T.seconds;
@@ -75,24 +75,24 @@ window.addEventListener('DOMContentLoaded', () => {
         SECONDS.textContent = '00';
       }
     }
-  }
+  };
 
-  setClock('timer', DEADLINE);
+  SET_CLOCK();
 
   // Modal
 
   const MORE = document.querySelector('.more'),
     OVERLAY = document.querySelector('.overlay');
 
-  document.addEventListener('click', function (event) {
+  document.addEventListener('click', event => {
     if (event.target === MORE || event.target.closest('.description-btn')) {
       OVERLAY.style.display = 'block';
-      this.classList.add('more-splash');
+      MORE.classList.add('more-splash');
       document.body.style.overflow = 'hidden';
     }
   });
 
-  OVERLAY.addEventListener('click', function (event) {
+  OVERLAY.addEventListener('click', event => {
     if (event.target == OVERLAY || event.target.closest('.popup-close')) {
       OVERLAY.style.display = 'none';
       MORE.classList.remove('more-splash');
