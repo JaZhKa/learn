@@ -15,7 +15,7 @@ window.addEventListener('DOMContentLoaded', () => {
   };
   HIDEN_TAB_CONTENT();
 
-  const SHOW_TAB_CONTENT = (s) => {
+  const SHOW_TAB_CONTENT = s => {
     if (TAB_CONTENT[s].classList.contains('hide')) {
       TAB_CONTENT[s].classList.remove('hide');
       TAB_CONTENT[s].classList.add('show');
