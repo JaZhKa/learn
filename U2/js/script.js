@@ -99,4 +99,49 @@ window.addEventListener('DOMContentLoaded', () => {
       document.body.style.overflow = '';
     }
   });
+
+  // Form
+
+  const massage = {
+    loading: 'Загрузка...',
+    success: 'Спасибо! Скоро мы c вами свяжемся!',
+    failure: 'Что-то пошло не так...',
+  };
+
+  const form = document.querySelector('.main-form'),
+        input = form.getElementsByTagName('input'),
+        statusMassage = document.createElement('div');
+
+  statusMassage.classList.add('stasus');
+
+  form.addEventListener('submit', e => {
+    e.preventDefault();
+    form.appendChild(statusMassage);
+    const request = new XMLHttpRequest();
+    request.open('POST', 'https://jsonplaceholder.typicode.com/posts');
+    request.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+
+    const formData = new FormData(form);
+
+    const obj = {};
+    formData.forEach((key, value) => {obj[key] = value;});
+    const json = JSON.stringify(obj);
+
+    request.send(json);
+
+    request.addEventListener('readystatechange', () => {
+      if (request.readyState < 4 ) {
+        statusMassage.innerHTML = massage.loading;
+      } else if (request.readyState === 4 && request.status >= 200 && request.status <= 299) {
+        statusMassage.innerHTML = massage.success;
+      } else {
+        statusMassage.innerHTML = massage.failure;
+      }
+    });
+
+    for(let i = 0; i < input.length; i++) {
+      input[i].value = '';
+    }
+
+  });
 });
