@@ -1,5 +1,4 @@
 window.addEventListener('DOMContentLoaded', () => {
-  
   // Tabs
 
   'use strict';
@@ -15,14 +14,14 @@ window.addEventListener('DOMContentLoaded', () => {
   };
   HIDEN_TAB_CONTENT();
 
-  const SHOW_TAB_CONTENT = s => {
+  const SHOW_TAB_CONTENT = (s) => {
     if (TAB_CONTENT[s].classList.contains('hide')) {
       TAB_CONTENT[s].classList.remove('hide');
       TAB_CONTENT[s].classList.add('show');
     }
   };
 
-  INFO.addEventListener('click', event => {
+  INFO.addEventListener('click', (event) => {
     const TARGET = event.target;
     if (TARGET && TARGET.classList.contains('info-header-tab')) {
       for (let i = 0; i < TAB.length; i++) {
@@ -39,7 +38,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
   const DEADLINE = '2022-08-26 00:00:00';
 
-  const GET_TIMER_RAMAINING = endtime => {
+  const GET_TIMER_RAMAINING = (endtime) => {
     const T = Date.parse(endtime) - Date.parse(new Date()),
       SECONDS = Math.floor((T / 1000) % 60),
       MINUTES = Math.floor((T / 1000 / 60) % 60),
@@ -84,7 +83,7 @@ window.addEventListener('DOMContentLoaded', () => {
   const MORE = document.querySelector('.more'),
     OVERLAY = document.querySelector('.overlay');
 
-  document.addEventListener('click', event => {
+  document.addEventListener('click', (event) => {
     if (event.target === MORE || event.target.closest('.description-btn')) {
       OVERLAY.style.display = 'block';
       MORE.classList.add('more-splash');
@@ -92,8 +91,8 @@ window.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  OVERLAY.addEventListener('click', event => {
-    if (event.target == OVERLAY || event.target.closest('.popup-close')) {
+  OVERLAY.addEventListener('click', (event) => {
+    if (event.target === OVERLAY || event.target.closest('.popup-close')) {
       OVERLAY.style.display = 'none';
       MORE.classList.remove('more-splash');
       document.body.style.overflow = '';
@@ -108,40 +107,64 @@ window.addEventListener('DOMContentLoaded', () => {
     failure: 'Что-то пошло не так...',
   };
 
-  const form = document.querySelector('.main-form'),
-        input = form.getElementsByTagName('input'),
-        statusMassage = document.createElement('div');
+  const mainForm = document.querySelector('.main-form'),
+    input = mainForm.getElementsByTagName('input'),
+    statusMassage = document.createElement('div'),
+    form = document.querySelector('form');
 
   statusMassage.classList.add('stasus');
+  statusMassage.style.color = '#fff';
 
-  form.addEventListener('submit', e => {
-    e.preventDefault();
-    form.appendChild(statusMassage);
-    const request = new XMLHttpRequest();
-    request.open('POST', 'https://jsonplaceholder.typicode.com/posts');
-    request.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+  document.addEventListener('submit', (e) => {
+    if (e.target.closest('.main-form') || e.target.closest('.contact-form')) {
+      e.preventDefault();
+      e.target.closest('.contact-form')
+        ? form.appendChild(statusMassage)
+        : mainForm.appendChild(statusMassage);
+      const request = new XMLHttpRequest();
+      request.open('POST', 'https://jsonplaceholder.typicode.com/posts');
+      let choise = [];
+      request.setRequestHeader(
+        'Content-type',
+        'application/x-www-form-urlencoded'
+      );
+      const formData = new FormData(mainForm),
+        contactData = new FormData(form);
 
-    const formData = new FormData(form);
-
-    const obj = {};
-    formData.forEach((key, value) => {obj[key] = value;});
-    const json = JSON.stringify(obj);
-
-    request.send(json);
-
-    request.addEventListener('readystatechange', () => {
-      if (request.readyState < 4 ) {
-        statusMassage.innerHTML = massage.loading;
-      } else if (request.readyState === 4 && request.status >= 200 && request.status <= 299) {
-        statusMassage.innerHTML = massage.success;
-      } else {
-        statusMassage.innerHTML = massage.failure;
+      function chooseData() {
+        if (e.target.closest('.contact-form')) {
+          choise = contactData;
+        } else {
+          choise = formData;
+        }
       }
-    });
+      chooseData();
 
-    for(let i = 0; i < input.length; i++) {
-      input[i].value = '';
+      const obj = {};
+      choise.forEach((value, key) => {
+        obj[key] = value;
+      });
+      const json = JSON.stringify(obj);
+
+      request.send(json);
+
+      request.addEventListener('readystatechange', () => {
+        if (request.readyState < 4) {
+          statusMassage.innerHTML = massage.loading;
+        } else if (
+          request.readyState === 4 &&
+          request.status >= 200 &&
+          request.status <= 299
+        ) {
+          statusMassage.innerHTML = massage.success;
+        } else {
+          statusMassage.innerHTML = massage.failure;
+        }
+      });
+
+      for (let i = 0; i < input.length; i++) {
+        input[i].value = '';
+      }
     }
-
   });
 });
