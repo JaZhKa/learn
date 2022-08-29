@@ -108,7 +108,7 @@ window.addEventListener('DOMContentLoaded', () => {
   };
 
   const mainForm = document.querySelector('.main-form'),
-    input = mainForm.getElementsByTagName('input'),
+    input = document.getElementsByTagName('input'),
     statusMassage = document.createElement('div'),
     form = document.querySelector('form');
 
