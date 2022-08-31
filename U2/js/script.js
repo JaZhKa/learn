@@ -111,60 +111,38 @@ window.addEventListener('DOMContentLoaded', () => {
     input = document.getElementsByTagName('input'),
     statusMassage = document.createElement('div'),
     form = document.querySelector('form');
-
   statusMassage.classList.add('stasus');
   statusMassage.style.color = '#fff';
-
-  document.addEventListener('submit', (e) => {
-    if (e.target.closest('.main-form') || e.target.closest('.contact-form')) {
+function sendForm(elem) {
+  elem.addEventListener('submit', (e) => {
       e.preventDefault();
-      e.target.closest('.contact-form')
-        ? form.appendChild(statusMassage)
-        : mainForm.appendChild(statusMassage);
+      elem.appendChild(statusMassage);
+
       const request = new XMLHttpRequest();
       request.open('POST', 'https://jsonplaceholder.typicode.com/posts');
-      let choise = [];
-      request.setRequestHeader(
-        'Content-type',
-        'application/x-www-form-urlencoded'
-      );
-      const formData = new FormData(mainForm),
-        contactData = new FormData(form);
+      
+      request.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+      const formData = new FormData(elem);
 
-      function chooseData() {
-        if (e.target.closest('.contact-form')) {
-          choise = contactData;
-        } else {
-          choise = formData;
-        }
-      }
-      chooseData();
+      request.send(formData);
 
-      const obj = {};
-      choise.forEach((value, key) => {
-        obj[key] = value;
-      });
-      const json = JSON.stringify(obj);
-
-      request.send(json);
-
-      request.addEventListener('readystatechange', () => {
+      request.onreadystatechange = function() {
         if (request.readyState < 4) {
           statusMassage.innerHTML = massage.loading;
-        } else if (
-          request.readyState === 4 &&
-          request.status >= 200 &&
-          request.status <= 299
-        ) {
-          statusMassage.innerHTML = massage.success;
-        } else {
+        } else if (request.readyState === 4) {
+          if (request.status >= 200 && request.status < 300) {
+            statusMassage.innerHTML = massage.success;
+          } else {
           statusMassage.innerHTML = massage.failure;
-        }
-      });
+            }
+      }};
 
       for (let i = 0; i < input.length; i++) {
         input[i].value = '';
       }
-    }
-  });
+    });
+  }
+sendForm(form);
+sendForm(mainForm);
+
 });
