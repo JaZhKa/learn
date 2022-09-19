@@ -36,7 +36,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
   // Timer
 
-  const DEADLINE = '2022-08-26 00:00:00';
+  const DEADLINE = '2022-09-26 00:00:00';
 
   const GET_TIMER_RAMAINING = (endtime) => {
     const T = Date.parse(endtime) - Date.parse(new Date()),
@@ -101,7 +101,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
   // Form
 
-  const massage = {
+  const message = {
     loading: 'Загрузка...',
     success: 'Спасибо! Скоро мы c вами свяжемся!',
     failure: 'Что-то пошло не так...',
@@ -109,40 +109,56 @@ window.addEventListener('DOMContentLoaded', () => {
 
   const mainForm = document.querySelector('.main-form'),
     input = document.getElementsByTagName('input'),
-    statusMassage = document.createElement('div'),
+    statusMessage = document.createElement('div'),
     form = document.querySelector('form');
-  statusMassage.classList.add('stasus');
-  statusMassage.style.color = '#fff';
-function sendForm(elem) {
-  elem.addEventListener('submit', (e) => {
-      e.preventDefault();
-      elem.appendChild(statusMassage);
+  statusMessage.classList.add('stasus');
+  statusMessage.style.color = '#fff';
 
-      const request = new XMLHttpRequest();
-      request.open('POST', 'https://jsonplaceholder.typicode.com/posts');
-      
-      request.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+  function sendForm(elem) {
+    elem.addEventListener('submit', (e) => {
+      e.preventDefault();
+      elem.appendChild(statusMessage);
       const formData = new FormData(elem);
 
-      request.send(formData);
-
-      request.onreadystatechange = function() {
-        if (request.readyState < 4) {
-          statusMassage.innerHTML = massage.loading;
-        } else if (request.readyState === 4) {
-          if (request.status >= 200 && request.status < 300) {
-            statusMassage.innerHTML = massage.success;
-          } else {
-          statusMassage.innerHTML = massage.failure;
+      function postData(data) {
+        return new Promise(function (resolve, reject) {
+          const request = new XMLHttpRequest();
+          request.open('POST', 'https://jsonplaceholder.typicode.com/posts');
+          request.setRequestHeader(
+            'Content-type',
+            'application/x-www-form-urlencoded'
+          );
+          request.onreadystatechange = function () {
+            if (request.readyState < 4) {
+              resolve();
+            } else if (request.readyState === 4) {
+              if (request.status >= 200 && request.status < 300) {
+                resolve();
+              } else {
+                reject();
+              }
             }
-      }};
-
-      for (let i = 0; i < input.length; i++) {
-        input[i].value = '';
+          };
+          request.send(data);
+        });
       }
+
+      function clearInput() {
+        for (let i = 0; i < input.length; i++) {
+          input[i].value = '';
+        }
+      }
+
+      postData(formData)
+        .then(() => (statusMessage.innerHTML = message.loading))
+        .then(() => {
+          statusMessage.innerHTML = message.success;
+        })
+        .catch(() => (statusMessage.innerHTML = message.failure))
+        .then(clearInput);
     });
   }
-sendForm(form);
-sendForm(mainForm);
 
+  sendForm(form);
+  sendForm(mainForm);
 });
