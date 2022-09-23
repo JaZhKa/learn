@@ -101,64 +101,65 @@ window.addEventListener('DOMContentLoaded', () => {
 
   // Form
 
-  const message = {
+  const MESSAGE = {
     loading: 'Загрузка...',
     success: 'Спасибо! Скоро мы c вами свяжемся!',
     failure: 'Что-то пошло не так...',
   };
 
-  const mainForm = document.querySelector('.main-form'),
-    input = document.getElementsByTagName('input'),
-    statusMessage = document.createElement('div'),
-    form = document.querySelector('form');
-  statusMessage.classList.add('stasus');
-  statusMessage.style.color = '#fff';
+  const MAIN_FORM = document.querySelector('.main-form'),
+    INPUT = document.getElementsByTagName('input'),
+    STATUS_MESSAGE = document.createElement('div'),
+    FORM = document.querySelector('form');
+  STATUS_MESSAGE.classList.add('stasus');
+  STATUS_MESSAGE.style.color = '#fff';
 
   function sendForm(elem) {
     elem.addEventListener('submit', (e) => {
       e.preventDefault();
-      elem.appendChild(statusMessage);
-      const formData = new FormData(elem);
+      elem.appendChild(STATUS_MESSAGE);
+      const FORM_DATA = new FormData(elem);
 
       function postData(data) {
         return new Promise(function (resolve, reject) {
-          const request = new XMLHttpRequest();
-          request.open('POST', 'https://jsonplaceholder.typicode.com/posts');
-          request.setRequestHeader(
+          const REQUEST = new XMLHttpRequest();
+          REQUEST.open('POST', 'https://jsonplaceholder.typicode.com/posts');
+          REQUEST.setRequestHeader(
             'Content-type',
             'application/x-www-form-urlencoded'
           );
-          request.onreadystatechange = function () {
-            if (request.readyState < 4) {
+          REQUEST.onreadystatechange = function () {
+            if (REQUEST.readyState < 4) {
               resolve();
-            } else if (request.readyState === 4) {
-              if (request.status >= 200 && request.status < 300) {
+            } else if (REQUEST.readyState === 4) {
+              if (REQUEST.status >= 200 && REQUEST.status < 300) {
                 resolve();
               } else {
                 reject();
               }
             }
           };
-          request.send(data);
+          REQUEST.send(data);
         });
       }
 
       function clearInput() {
-        for (let i = 0; i < input.length; i++) {
-          input[i].value = '';
+        for (let i = 0; i < INPUT.length; i++) {
+          INPUT[i].value = '';
         }
       }
 
-      postData(formData)
-        .then(() => (statusMessage.innerHTML = message.loading))
+      postData(FORM_DATA)
+        .then(() => (STATUS_MESSAGE.innerHTML = MESSAGE.loading))
         .then(() => {
-          statusMessage.innerHTML = message.success;
+          STATUS_MESSAGE.innerHTML = MESSAGE.success;
         })
-        .catch(() => (statusMessage.innerHTML = message.failure))
+        .catch(() => (STATUS_MESSAGE.innerHTML = MESSAGE.failure))
         .then(clearInput);
     });
   }
 
-  sendForm(form);
-  sendForm(mainForm);
+  sendForm(FORM);
+  sendForm(MAIN_FORM);
+
 });
