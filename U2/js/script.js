@@ -101,64 +101,107 @@ window.addEventListener('DOMContentLoaded', () => {
 
   // Form
 
-  const message = {
+  const MESSAGE = {
     loading: 'Загрузка...',
     success: 'Спасибо! Скоро мы c вами свяжемся!',
     failure: 'Что-то пошло не так...',
   };
 
-  const mainForm = document.querySelector('.main-form'),
-    input = document.getElementsByTagName('input'),
-    statusMessage = document.createElement('div'),
-    form = document.querySelector('form');
-  statusMessage.classList.add('stasus');
-  statusMessage.style.color = '#fff';
+  const MAIN_FORM = document.querySelector('.main-form'),
+    INPUT = document.getElementsByTagName('input'),
+    STATUS_MESSAGE = document.createElement('div'),
+    FORM = document.querySelector('form');
+  STATUS_MESSAGE.classList.add('stasus');
+  STATUS_MESSAGE.style.color = '#fff';
 
   function sendForm(elem) {
     elem.addEventListener('submit', (e) => {
       e.preventDefault();
-      elem.appendChild(statusMessage);
-      const formData = new FormData(elem);
+      elem.appendChild(STATUS_MESSAGE);
+      const FORM_DATA = new FormData(elem);
 
       function postData(data) {
         return new Promise(function (resolve, reject) {
-          const request = new XMLHttpRequest();
-          request.open('POST', 'https://jsonplaceholder.typicode.com/posts');
-          request.setRequestHeader(
+          const REQUEST = new XMLHttpRequest();
+          REQUEST.open('POST', 'https://jsonplaceholder.typicode.com/posts');
+          REQUEST.setRequestHeader(
             'Content-type',
             'application/x-www-form-urlencoded'
           );
-          request.onreadystatechange = function () {
-            if (request.readyState < 4) {
+          REQUEST.onreadystatechange = function () {
+            if (REQUEST.readyState < 4) {
               resolve();
-            } else if (request.readyState === 4) {
-              if (request.status >= 200 && request.status < 300) {
+            } else if (REQUEST.readyState === 4) {
+              if (REQUEST.status >= 200 && REQUEST.status < 300) {
                 resolve();
               } else {
                 reject();
               }
             }
           };
-          request.send(data);
+          REQUEST.send(data);
         });
       }
 
       function clearInput() {
-        for (let i = 0; i < input.length; i++) {
-          input[i].value = '';
+        for (let i = 0; i < INPUT.length; i++) {
+          INPUT[i].value = '';
         }
       }
 
-      postData(formData)
-        .then(() => (statusMessage.innerHTML = message.loading))
+      postData(FORM_DATA)
+        .then(() => (STATUS_MESSAGE.innerHTML = MESSAGE.loading))
         .then(() => {
-          statusMessage.innerHTML = message.success;
+          STATUS_MESSAGE.innerHTML = MESSAGE.success;
         })
-        .catch(() => (statusMessage.innerHTML = message.failure))
+        .catch(() => (STATUS_MESSAGE.innerHTML = MESSAGE.failure))
         .then(clearInput);
     });
   }
 
-  sendForm(form);
-  sendForm(mainForm);
+  sendForm(FORM);
+  sendForm(MAIN_FORM);
+
+  //Slider
+
+  let slideIndex = 1;
+  const SLIDES = document.querySelectorAll('.slider-item'),
+    PREV = document.querySelector('.prev'),
+    NEXT = document.querySelector('.next'),
+    DOTS_WRAP = document.querySelector('.slider-dots'),
+    DOTS = document.querySelectorAll('.dot');
+
+  showSlides(slideIndex);
+
+  function showSlides(n) {
+    if (n > SLIDES.length) {
+      slideIndex = 1;
+    }
+    if (n < 1) {
+      slideIndex = SLIDES.length;
+    }
+
+    SLIDES.forEach((item) => (item.style.display = 'none'));
+    DOTS.forEach((item) => item.classList.remove('dot-active'));
+
+    SLIDES[slideIndex - 1].style.display = 'block';
+    DOTS[slideIndex - 1].classList.add('dot-active');
+  }
+
+  function plusSlides(n) {
+    showSlides((slideIndex += n));
+  }
+  function currentSlide(n) {
+    showSlides(slideIndex = n);
+  }
+  PREV.addEventListener('click', () => plusSlides(-1));
+  NEXT.addEventListener('click', () => plusSlides(1));
+
+  DOTS_WRAP.addEventListener('click', (e) => {
+    for (let i = 0; i < DOTS.length + 1; i++) {
+      if (e.target.classList.contains('dot') && e.target == DOTS[i - 1]) {
+        currentSlide(i);
+      }
+    }
+  });
 });
