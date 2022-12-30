@@ -3,3 +3,4 @@ logs/
 anim.html
 .gitignore
 ajax/
+node_modules
