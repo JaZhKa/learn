@@ -4,7 +4,7 @@ function form() {
     success: 'Спасибо! Скоро мы c вами свяжемся!',
     failure: 'Что-то пошло не так...',
   };
-
+  
   const MAIN_FORM = document.querySelector('.main-form'),
     INPUT = document.getElementsByTagName('input'),
     STATUS_MESSAGE = document.createElement('div'),
